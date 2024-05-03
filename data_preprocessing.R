@@ -13,7 +13,7 @@ world_coordinates <- map_data("world")
 
 wcr<-unique(world_coordinates$region)
 wdr<-unique(wd$Country.Territory)
-
+wcr<-unique(df$COUNTRY)
 # we are going to use these to identify which country names do not match
 wcr[!(wcr %in% wdr)]
 wdr[!(wdr %in% wcr)]
@@ -45,3 +45,6 @@ df<- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_wor
 war<-unique(df$COUNTRY)
 wdr[!(wdr %in% war)]
 merged_data <- merge(df, wd, by.x = "COUNTRY", by.y = "Country.Territory", all.x = TRUE)
+
+
+

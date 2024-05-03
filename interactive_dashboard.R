@@ -9,13 +9,13 @@ library(plotly)
 ui <- dashboardPage(
   dashboardHeader(title = "Basic dashboard"),
   dashboardSidebar(
-    sliderInput("slider", "Number of observations:", 1991,2001,10),
-    selectInput("variable","Variable:",c("Meningitis","Malaria","Tuberculosis"))
+    sliderInput("slider", "Number of observations:", 1991,2017,27),
+    selectInput("variable","Variable:",colnames(merged_data)[6:36])
   ),
   dashboardBody(
     # Boxes need to be put in a row (or column)
-    fluidRow(
-      box(plotlyOutput("plot1", height = 250,width=500)))
+    fluidPage(
+      plotlyOutput("plot1", height = 250,width=500))
   )
 )
 
