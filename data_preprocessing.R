@@ -39,3 +39,9 @@ wdr[!(wdr %in% wcr)]
 
 # merge by world coordinates for plotting
 merged_data <- merge(world_coordinates, wd, by.x = "region", by.y = "Country.Territory", all.x = TRUE)
+
+# consider using this data instead
+df<- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv")
+war<-unique(df$COUNTRY)
+wdr[!(wdr %in% war)]
+merged_data <- merge(df, wd, by.x = "COUNTRY", by.y = "Country.Territory", all.x = TRUE)
