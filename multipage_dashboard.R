@@ -32,8 +32,19 @@ ui <- fluidPage(
                         mainPanel(
                           plotOutput("lineplot")
                         )
-                      )
-  )
+                      )),
+              tabPanel("Line Graphs",
+                               sidebarLayout(
+                                 sidebarPanel(
+                                   selectInput("variable","Variable:",c("Meningitis","Malaria","Tuberculosis")),
+                                   selectInput("country","Country:",choices=unique(merged_data$COUNTRY),selected = "Malaysia",multiple=TRUE),
+                                   
+                                 ),
+                                 mainPanel(
+                                   plotOutput("line2plot")
+                                 )
+                               ))
+  
   
 ))
 
@@ -55,6 +66,26 @@ server <- function(input, output) {
     data <- merged_data %>% 
       filter(COUNTRY %in% input$country)
     ggplot(data, aes(x = Year, y = get(input$variable),colour=COUNTRY)) +
+      geom_line() +
+      labs(x = "Time", y = "Total Bill", title = "Total Bill over Time")
+  })
+  
+  # Page 2: Line Graphs
+  output$line2plot <- renderPlot({
+    data <- merged_data %>% 
+      filter(COUNTRY %in% input$country)
+    lm_model <- lm(get(input$variable) ~ Year, data = data)
+    
+    # Define future years for prediction
+    future_years <- seq(2016, 2021, by = 1)
+    
+    # Create a data frame for future years
+    future_df <- data.frame(Year = future_years)
+    
+    # Make predictions for future years
+    predictions <- predict(lm_model, newdata = future_df)
+    future_df <- cbind(future_df,data.frame(predictions=predictions))
+    ggplot(future_df, aes(x = Year, y = predictions)) +
       geom_line() +
       labs(x = "Time", y = "Total Bill", title = "Total Bill over Time")
   })
