@@ -13,8 +13,8 @@ ui <- fluidPage(
              tabPanel("Global Map", 
                       sidebarLayout(
                         sidebarPanel(
-                          sliderInput("year_global", "Year:", 1991,2001,10),
-                          selectInput("cause_global","Cause:",c("Meningitis","Malaria","Tuberculosis")),
+                          sliderInput("year_global", "Year:", 1991,2017,27),
+                          selectInput("cause_global","Cause:",colnames(merged_data)[6:36]),
                           collapsible=TRUE
                         ),
                         mainPanel(
