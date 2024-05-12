@@ -13,8 +13,8 @@ ui <- fluidPage(
              tabPanel("Global Map", 
                       sidebarLayout(
                         sidebarPanel(
-                          sliderInput("slider", "Number of observations:", 1991,2001,10),
-                          selectInput("variable","Variable:",c("Meningitis","Malaria","Tuberculosis")),
+                          sliderInput("year_global", "Year:", 1991,2001,10),
+                          selectInput("cause_global","Cause:",c("Meningitis","Malaria","Tuberculosis")),
                           collapsible=TRUE
                         ),
                         mainPanel(
@@ -53,11 +53,14 @@ server <- function(input, output) {
   
   # Page 1: Global Map
   output$plot1 <- renderPlotly({
-    a<- input$variable
+    a<- input$cause_global
     md1<- merged_data %>%
-      filter(Year == input$slider)
-    p<-plot_ly(md1,type='choropleth',locations=md1$CODE,z=~get(a),text=md1$Country)
-    p
+      filter(Year == input$year_global)
+    p<-plot_ly(md1,type='choropleth',locations=md1$CODE,z=~get(a),text=md1$Country) %>%
+      colorbar(title='Value')
+      #layout(legend=list(title=list(text='Value'),orientation='h'))
+    
+    print(p)
     
   })
   
