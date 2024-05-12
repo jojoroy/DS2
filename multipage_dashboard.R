@@ -25,7 +25,7 @@ ui <- fluidPage(
              tabPanel("Line Graphs",
                       sidebarLayout(
                         sidebarPanel(
-                          selectInput("variable","Variable:",c("Meningitis","Malaria","Tuberculosis")),
+                          selectInput("variable2","Variable:",c("Meningitis","Malaria","Tuberculosis")),
                           selectInput("country","Country:",choices=unique(merged_data$COUNTRY),selected = "Malaysia",multiple=TRUE),
                           
                         ),
@@ -63,9 +63,16 @@ server <- function(input, output) {
   
   # Page 2: Line Graphs
   output$lineplot <- renderPlot({
-    data <- merged_data %>% 
-      filter(COUNTRY %in% input$country)
-    ggplot(data, aes(x = Year, y = get(input$variable),colour=COUNTRY)) +
+    
+    lineplotdata<- reactive({
+      data <- merged_data %>% 
+      filter(COUNTRY %in% input$country) %>%
+      select(Year, COUNTRY, input$variable2)
+      return(data)
+             
+             })
+    
+    ggplot(lineplotdata(), aes(x = Year, y = get(input$variable2),colour=COUNTRY)) +
       geom_line() +
       labs(x = "Time", y = "Total Bill", title = "Total Bill over Time")
   })
