@@ -3,12 +3,13 @@ library(leaflet)
 library(ggplot2)
 library(dplyr)
 library(plotly)
+library(shinythemes)
 
 # Sample global data (you can replace it with your own dataset)
 data <- read.csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv")
 
 # Define UI
-ui <- fluidPage(
+ui <- fluidPage(theme=shinytheme('cerulean'),
   navbarPage(title='Global Deaths',
              tabPanel("Global Map", 
                       sidebarLayout(
@@ -25,7 +26,7 @@ ui <- fluidPage(
              tabPanel("Line Graphs",
                       sidebarLayout(
                         sidebarPanel(
-                          selectInput("variable2","Variable:",colnames(merged_data)[6:36]),
+                          selectInput("cause","Cause:",colnames(merged_data)[6:36]),
                           selectInput("country","Country:",choices=unique(merged_data$COUNTRY),selected = "Malaysia",multiple=TRUE),
                           
                         ),
@@ -36,20 +37,20 @@ ui <- fluidPage(
               tabPanel("Predictions",
                                sidebarLayout(
                                  sidebarPanel(
-                                   selectInput("var","Variable:", colnames(merged_data)[6:36]),
-                                   selectInput("countryp","Country:",choices=unique(merged_data$COUNTRY),selected="Malaysia")
+                                   selectInput("cause_pred","Cause:", colnames(merged_data)[6:36]),
+                                   selectInput("country_pred","Country:",choices=unique(merged_data$COUNTRY),selected="Malaysia")
                                  ),
                                  mainPanel(
                                    plotOutput("line2plot")
                                  )
-                               )),
-             tags$style(
-               HTML("
-                    .navbar {
-                    background-color: #337ab7;
-                    }
-                    ")
-             )
+                               ))
+             #tags$style(
+              # HTML("
+               #     .navbar {
+                #    background-color: #337ab7;
+                 #   }
+                  #  ")
+             #)
   
   
 ))
@@ -76,14 +77,14 @@ server <- function(input, output) {
     lineplotdata<- reactive({
       data <- merged_data %>% 
       filter(COUNTRY %in% input$country) %>%
-      select(Year, COUNTRY, input$variable2)
+      select(Year, COUNTRY, input$cause)
       return(data)
              
              })
     
-    q<-ggplot(lineplotdata(), aes(x = Year, y = get(input$variable2),colour=COUNTRY)) +
+    q<-ggplot(lineplotdata(), aes(x = Year, y = get(input$cause),colour=COUNTRY)) +
       geom_line() +
-      labs(x = "Year", y = "Count", title = input$variable2) + theme_bw()
+      labs(x = "Year", y = "Count", title = input$cause) + theme_light()
     q
   })
   
@@ -93,12 +94,12 @@ server <- function(input, output) {
     
     prediction <- reactive({
       data <- merged_data %>% 
-        filter(COUNTRY %in% input$countryp)
+        filter(COUNTRY %in% input$country_pred)
       validate(
         need(nrow(data)>1,"Please pick another country")
       )
       # Get selected count variable
-      poisson_model <- glm(get(input$var) ~ Year, data = data, family="poisson")
+      poisson_model <- glm(get(input$cause_pred) ~ Year, data = data, family="poisson")
       # Define future years for prediction
       future_years <- seq(2020, 2024, by = 1)
       # Create a data frame for future years
@@ -115,7 +116,7 @@ server <- function(input, output) {
     
     ggplot(prediction(), aes(x = Year, y = predictions)) +
       geom_line() +
-      labs(x = "Year", y = "Count", title = paste("Predictions of ", input$var," in ", input$countryp))
+      labs(x = "Year", y = "Count", title = paste("Predictions of ", input$cause_pred," in ", input$country_pred)) + theme_bw()
   })
 }
 
