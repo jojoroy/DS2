@@ -18,7 +18,7 @@ Interactive Visualizations: Explore data using interactive plots.
 Data Analysis: Perform analysis on the dataset provided.
 Customization: Easily customize the dashboard layout and appearance.
 File Structure
-bash
+```bash
 Copy code
 shiny-dashboard/
 │
@@ -31,6 +31,7 @@ shiny-dashboard/
 └── www/              # Folder for storing static files like images or CSS stylesheets.
     ├── logo.png
     └── ...
+```
 Contributing
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
 
