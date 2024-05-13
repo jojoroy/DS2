@@ -14,7 +14,7 @@ ui <- fluidPage(
                       sidebarLayout(
                         sidebarPanel(
                           sliderInput("year_global", "Year:", min=1990,max=2019,value=1990,step=1,sep=''),
-                          selectInput("cause_global","Cause:",colnames(merged_data)[6:36]),
+                          selectInput("cause_global","Cause:",colnames(wd)[6:36]),
                           collapsible=TRUE
                         ),
                         mainPanel(
@@ -60,9 +60,9 @@ server <- function(input, output) {
   # Page 1: Global Map
   output$plot1 <- renderPlotly({
     a<- input$cause_global
-    md1<- merged_data %>%
+    md1<- wd %>%
       filter(Year == input$year_global)
-    p<-plot_ly(md1,type='choropleth',locations=md1$CODE,z=~get(a),text=md1$Country) %>%
+    p<-plot_ly(md1,type='choropleth',locations=md1$Code,z=~get(a),text=md1$Country) %>%
       colorbar(title='Value') %>%
       layout(title=paste(a," Deaths in the World in", input$year_global))
     
