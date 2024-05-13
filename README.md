@@ -1,5 +1,21 @@
 # Shiny Dashboard
 
+This project is a Shiny dashboard built using R. It provides interactive visualizations and data analysis capabilities.
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have R and RStudio installed on your machine.
+
+### Installation
+
+1. **Clone the repository:**
+
+```bash
+   git clone https://github.com/your_username/shiny-dashboard.git
+```
+
 Open the project in RStudio.
 
 Install required packages:
