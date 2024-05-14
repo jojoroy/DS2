@@ -1,6 +1,7 @@
 # Shiny Dashboard
 
 This project is a Shiny dashboard built using R. It provides interactive visualizations and data analysis capabilities.
+
 Link to deploy: https://jojoroy.shinyapps.io/death_dashboard_app/
 
 ## Getting Started
