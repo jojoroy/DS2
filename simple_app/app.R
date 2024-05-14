@@ -7,7 +7,7 @@ library(shinythemes)
 
 # Sample global data (you can replace it with your own dataset)
 cod_data <- read.csv('./cause_of_deaths.csv')
-column_names=gsub(pattern= "\\W+",replacement=' ',x=colnames(cod_data))
+#column_names=gsub(pattern= "\\W+",replacement=' ',x=colnames(cod_data))
 colnames(cod_data)[1]='Country'
 
 # Define UI
@@ -19,7 +19,7 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
                       sidebarLayout(
                         sidebarPanel(
                           sliderInput("year_global", "Year:", min=1990,max=2019,value=1990,step=1,sep=''),
-                          selectInput("cause_global","Cause:",column_names[4:34]),
+                          selectInput("cause_global","Cause:",colnames(cod_data)[4:34]),
                           collapsible=TRUE
                         ),
                         mainPanel(
@@ -32,7 +32,7 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
              tabPanel("Line Graphs",
                       sidebarLayout(
                         sidebarPanel(
-                          selectInput("cause","Cause:",column_names[4:34]),
+                          selectInput("cause","Cause:",colnames(cod_data)[4:34]),
                           selectInput("country","Country:",choices=unique(cod_data$Country),selected = "Malaysia",multiple=TRUE),
                           
                         ),
@@ -45,7 +45,7 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
               tabPanel("Predictions",
                                sidebarLayout(
                                  sidebarPanel(
-                                   selectInput("cause_pred","Cause:", column_names[6:36]),
+                                   selectInput("cause_pred","Cause:", colnames(cod_data)[4:34]),
                                    selectInput("country_pred","Country:",choices=unique(cod_data$Country),selected="Malaysia")
                                  ),
                                  mainPanel(
@@ -89,7 +89,7 @@ server <- function(input, output) {
              
              })
     # plot line graphs of each country
-    q<-ggplot(lineplotdata(), aes(x = Year, y = get(input$cause),colour=COUNTRY)) +
+    q<-ggplot(lineplotdata(), aes(x = Year, y = get(input$cause),colour=Country)) +
       geom_line() +
       labs(x = "Year", y = "Count", title = input$cause) + theme_light()
     q
