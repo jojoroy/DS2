@@ -5,7 +5,7 @@ library(maps)
 library(ggplot2)
 
 # read file
-wd<-read.csv('/Users/User/OneDrive - Imperial College London/cause_of_deaths.csv')
+wd<-read.csv('./simple_app/cause_of_deaths.csv')
 df<- read.csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv")
 war<-unique(df$COUNTRY)
 wdr<-unique(wd$Country.Territory)

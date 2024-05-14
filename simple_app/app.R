@@ -6,7 +6,9 @@ library(plotly)
 library(shinythemes)
 
 # Sample global data (you can replace it with your own dataset)
-data <- read.csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv")
+cod_data <- read.csv('./cause_of_deaths.csv')
+column_names=gsub(pattern= "\\W+",replacement=' ',x=colnames(cod_data))
+colnames(cod_data)[1]='Country'
 
 # Define UI
 ui <- fluidPage(theme=shinytheme('cerulean'),
@@ -17,7 +19,7 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
                       sidebarLayout(
                         sidebarPanel(
                           sliderInput("year_global", "Year:", min=1990,max=2019,value=1990,step=1,sep=''),
-                          selectInput("cause_global","Cause:",colnames(wd)[6:36]),
+                          selectInput("cause_global","Cause:",column_names[4:34]),
                           collapsible=TRUE
                         ),
                         mainPanel(
@@ -30,8 +32,8 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
              tabPanel("Line Graphs",
                       sidebarLayout(
                         sidebarPanel(
-                          selectInput("cause","Cause:",colnames(merged_data)[6:36]),
-                          selectInput("country","Country:",choices=unique(merged_data$COUNTRY),selected = "Malaysia",multiple=TRUE),
+                          selectInput("cause","Cause:",column_names[4:34]),
+                          selectInput("country","Country:",choices=unique(cod_data$Country),selected = "Malaysia",multiple=TRUE),
                           
                         ),
                         mainPanel(
@@ -43,8 +45,8 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
               tabPanel("Predictions",
                                sidebarLayout(
                                  sidebarPanel(
-                                   selectInput("cause_pred","Cause:", colnames(merged_data)[6:36]),
-                                   selectInput("country_pred","Country:",choices=unique(merged_data$COUNTRY),selected="Malaysia")
+                                   selectInput("cause_pred","Cause:", column_names[6:36]),
+                                   selectInput("country_pred","Country:",choices=unique(cod_data$Country),selected="Malaysia")
                                  ),
                                  mainPanel(
                                    plotOutput("line2plot")
@@ -62,12 +64,15 @@ server <- function(input, output) {
   output$plot1 <- renderPlotly({
     a<- input$cause_global
     # filter data by chosen year
-    md1<- wd %>%
+    md1<- cod_data %>%
       filter(Year == input$year_global)
     # plot using plotly world map
-    p<-plot_ly(md1,type='choropleth',locations=md1$Code,z=~get(a),text=md1$Country) %>%
-      colorbar(title='Value') %>%
-      layout(title=paste(a," Deaths in the World in", input$year_global))
+    p <- plot_ly(md1,type='choropleth',
+                 locations=md1$Code,
+                 z=~get(a),
+                 text=md1$Country) %>%
+      colorbar(title = 'Value') %>%
+      layout(title = paste(a,"Deaths in the World in", input$year_global))
     
     print(p)
     
@@ -77,9 +82,9 @@ server <- function(input, output) {
   output$lineplot <- renderPlot({
     # use reactive for live updates based on cause input and country input on this page
     lineplotdata<- reactive({
-      data <- merged_data %>% 
-      filter(COUNTRY %in% input$country) %>%
-      select(Year, COUNTRY, input$cause)
+      data <- cod_data %>% 
+      filter(Country %in% input$country) %>%
+      select(Year, Country, input$cause)
       return(data)
              
              })
@@ -96,8 +101,8 @@ server <- function(input, output) {
     # function to generate predictions of data from selected country and cause
     prediction <- reactive({
       # filter relevant data
-      data <- merged_data %>% 
-        filter(COUNTRY %in% input$country_pred)
+      data <- cod_data %>% 
+        filter(Country %in% input$country_pred)
       
       # add validate to ensure there is data to make predictions on
       validate(
@@ -121,7 +126,7 @@ server <- function(input, output) {
     # use ggplot to plot predictions
     ggplot(prediction(), aes(x = Year, y = predictions)) +
       geom_line() +
-      labs(x = "Year", y = "Count", title = paste("Predictions of ", input$cause_pred," in ", input$country_pred)) + theme_bw()
+      labs(x = "Year", y = "Count", title = paste("Predictions of", input$cause_pred,"in", input$country_pred)) + theme_bw()
   })
 }
 
