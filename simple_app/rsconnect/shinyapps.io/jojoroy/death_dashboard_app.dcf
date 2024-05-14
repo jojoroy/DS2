@@ -1,0 +1,12 @@
+name: death_dashboard_app
+title: death_dashboard_app
+username: jojoroy
+account: jojoroy
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 12002716
+bundleId: 8615750
+url: https://jojoroy.shinyapps.io/death_dashboard_app/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
