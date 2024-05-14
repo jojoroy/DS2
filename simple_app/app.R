@@ -11,6 +11,8 @@ data <- read.csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/
 # Define UI
 ui <- fluidPage(theme=shinytheme('cerulean'),
   navbarPage(title='Global Deaths',
+             # code for the first page displaying world colormap
+             ## has a selector for year and cause of death
              tabPanel("Global Map", 
                       sidebarLayout(
                         sidebarPanel(
@@ -23,6 +25,8 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
                         )
                       )
              ),
+             # code for the plot in second tab displaying line graphs
+             ## choose cause and able to select multiple countries
              tabPanel("Line Graphs",
                       sidebarLayout(
                         sidebarPanel(
@@ -34,6 +38,8 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
                           plotOutput("lineplot")
                         )
                       )),
+             # code for the third page to display predictions
+             ## choose one country and cause to show predicitons for 2020-2024
               tabPanel("Predictions",
                                sidebarLayout(
                                  sidebarPanel(
@@ -44,13 +50,7 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
                                    plotOutput("line2plot")
                                  )
                                ))
-             #tags$style(
-              # HTML("
-               #     .navbar {
-                #    background-color: #337ab7;
-                 #   }
-                  #  ")
-             #)
+             
   
   
 ))
@@ -58,11 +58,13 @@ ui <- fluidPage(theme=shinytheme('cerulean'),
 # Define server logic
 server <- function(input, output) {
   
-  # Page 1: Global Map
+  # Page 1: Global Map 
   output$plot1 <- renderPlotly({
     a<- input$cause_global
+    # filter data by chosen year
     md1<- wd %>%
       filter(Year == input$year_global)
+    # plot using plotly world map
     p<-plot_ly(md1,type='choropleth',locations=md1$Code,z=~get(a),text=md1$Country) %>%
       colorbar(title='Value') %>%
       layout(title=paste(a," Deaths in the World in", input$year_global))
@@ -73,7 +75,7 @@ server <- function(input, output) {
   
   # Page 2: Line Graphs
   output$lineplot <- renderPlot({
-    
+    # use reactive for live updates based on cause input and country input on this page
     lineplotdata<- reactive({
       data <- merged_data %>% 
       filter(COUNTRY %in% input$country) %>%
@@ -81,7 +83,7 @@ server <- function(input, output) {
       return(data)
              
              })
-    
+    # plot line graphs of each country
     q<-ggplot(lineplotdata(), aes(x = Year, y = get(input$cause),colour=COUNTRY)) +
       geom_line() +
       labs(x = "Year", y = "Count", title = input$cause) + theme_light()
@@ -91,12 +93,15 @@ server <- function(input, output) {
   # Page 2: Line Graphs
   output$line2plot <- renderPlot({
     
-    
+    # function to generate predictions of data from selected country and cause
     prediction <- reactive({
+      # filter relevant data
       data <- merged_data %>% 
         filter(COUNTRY %in% input$country_pred)
+      
+      # add validate to ensure there is data to make predictions on
       validate(
-        need(nrow(data)>1,"Please pick another country")
+        need(nrow(data) > 1,"Please pick another country")
       )
       # Get selected count variable
       poisson_model <- glm(get(input$cause_pred) ~ Year, data = data, family="poisson")
@@ -113,7 +118,7 @@ server <- function(input, output) {
     
     
     
-    
+    # use ggplot to plot predictions
     ggplot(prediction(), aes(x = Year, y = predictions)) +
       geom_line() +
       labs(x = "Year", y = "Count", title = paste("Predictions of ", input$cause_pred," in ", input$country_pred)) + theme_bw()
