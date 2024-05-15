@@ -1,1 +1,1 @@
-install.packages('shinydashboard')
+install.packages(c("shiny", "ggplot2", "dplyr"))
