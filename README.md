@@ -33,19 +33,17 @@ Open the project in RStudio.
 
 Install required packages:
 
-R
-Copy code
-install.packages(c("shiny", "shinydashboard", "ggplot2", "dplyr"))
+install.packages(c("shiny", "shinydashboard", "ggplot2", "dplyr")) should help install necessary packages or yuo can run the file install.R, if there are further dependencies, this code should allow the dependecies to be downloaded.
 Usage
 Run the app.R file in RStudio. The dashboard should open in your default web browser.
 
-R
-Copy code
+
+
 shiny::runApp("app.R")
 Features
 Interactive Visualizations: Explore data using interactive plots.
 Data Analysis: Perform analysis on the dataset provided.
-Customization: Easily customize the dashboard layout and appearance.
+
 File Structure
 ```bash
 Copy code
