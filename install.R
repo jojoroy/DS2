@@ -1,1 +1,1 @@
-install.packages(c("shiny", "ggplot2", "dplyr"))
+install.packages(c("shiny", "ggplot2", "dplyr","plotly","shinythemes"))
