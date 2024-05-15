@@ -36,7 +36,7 @@ We have opted to use the plotly library as it allows us to plot with ISO codes o
 
 3. Install required packages:
 
-install.packages(c("shiny", "shinydashboard", "ggplot2", "dplyr")) should help install necessary packages or yuo can run the file install.R, if there are further dependencies, this code should allow the dependecies to be downloaded.
+install.packages(c("shiny", "ggplot2", "dplyr","plotly","shinythemes")) should help install necessary packages or yuo can run the file install.R, if there are further dependencies, this code should allow the dependecies to be downloaded.
 
 4. Usage
 Run the app.R file in RStudio. The dashboard should open in your default web browser.
