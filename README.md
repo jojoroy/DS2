@@ -1,14 +1,25 @@
-# Shiny Dashboard
+# Shiny Dashboard for Visualising Death
 
-This project is a Shiny dashboard built using R. It provides interactive visualizations and data analysis capabilities.
+This project is a Shiny dashboard built using R. It provides interactive visualizations and some prediction capability.
 
 Link to deploy: https://jojoroy.shinyapps.io/death_dashboard_app/
+
+## Introduction 
+This dashboard is a dashbaord with three tabs, the first tab displaying the deaths around the world using a colour map to show various levels. The second is produces line graphs to see year on year trends for a number of countries you can select. The third tab allows you to pick a country and cause of death and uses a poisson regression model to produce predictions for 2020-2024.
+
+## Data
+this dataset was obtained from Kaggle who made this dataset from data from the world bank. more deatils can be found at
+
 
 ## Getting Started
 
 ### Prerequisites
 
 Make sure you have R and RStudio installed on your machine.
+
+### Notes about shiny
+
+### Notes about plotting world maps
 
 ### Installation
 
@@ -58,6 +69,9 @@ Create your feature branch: git checkout -b feature/my-feature.
 Commit your changes: git commit -am 'Add some feature'.
 Push to the branch: git push origin feature/my-feature.
 Submit a pull request.
+
+
+
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
