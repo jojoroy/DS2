@@ -8,7 +8,7 @@ Link to deploy: https://jojoroy.shinyapps.io/death_dashboard_app/
 This dashboard is a dashbaord with three tabs, the first tab displaying the deaths around the world using a colour map to show various levels. The second is produces line graphs to see year on year trends for a number of countries you can select. The third tab allows you to pick a country and cause of death and uses a poisson regression model to produce predictions for 2020-2024.
 
 ## Data
-this dataset was obtained from Kaggle who made this dataset from data from the world bank. more deatils can be found at
+this dataset was obtained from Kaggle who made this dataset from data from the world bank. more deatils can be found at https://www.kaggle.com/datasets/iamsouravbanerjee/cause-of-deaths-around-the-world
 
 
 ## Getting Started
@@ -18,8 +18,11 @@ this dataset was obtained from Kaggle who made this dataset from data from the w
 Make sure you have R and RStudio installed on your machine. Make sure you have R and RStudio installed on your machine. This work was done on R version 4.3.1 but a lot of packages used are under 4.3.3 so it is worth ensuring your r is fully updated.
 
 ### Notes about shiny
+https://rstudio.github.io/shinydashboard/get_started.html is a useful resource if you are very new to shiny to get used to reactive and the structure of how to make an app.R file.
+https://engineering-shiny.org/successful-shiny-app.html is a more advanced resource and is helpful on working on the finer details.
 
 ### Notes about plotting world maps
+We have opted to use the plotly library as it allows us to plot with ISO codes of countries. Other alternatives include using geom_polygon() in ggplot2 but that requires coordinates of world polygon shapes.
 
 ### Installation
 
