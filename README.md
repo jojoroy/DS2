@@ -29,7 +29,7 @@ We have opted to use the plotly library as it allows us to plot with ISO codes o
 1. Clone the repository:
 
 ```bash
-   git clone https://github.com/your_username/shiny-dashboard.git
+   git clone https://github.com/jojoroy/Shiny-Dasboard-Visualising-Death.git
 ```
 
 2. Open the project in RStudio.
