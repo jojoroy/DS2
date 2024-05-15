@@ -67,11 +67,11 @@ This dashboard was pulbished on the link at the top of the page using shinyapps.
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
 
-Fork the repository.
-Create your feature branch: git checkout -b feature/my-feature.
-Commit your changes: git commit -am 'Add some feature'.
-Push to the branch: git push origin feature/my-feature.
-Submit a pull request.
+1. Fork the repository.
+2. Create your feature branch: git checkout -b feature/my-feature.
+3. Commit your changes: git commit -am 'Add some feature'.
+4. Push to the branch: git push origin feature/my-feature.
+5. Submit a pull request.
 
 
 
