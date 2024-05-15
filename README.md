@@ -15,7 +15,7 @@ this dataset was obtained from Kaggle who made this dataset from data from the w
 
 ### Prerequisites
 
-Make sure you have R and RStudio installed on your machine.
+Make sure you have R and RStudio installed on your machine. Make sure you have R and RStudio installed on your machine. This work was done on R version 4.3.1 but a lot of packages used are under 4.3.3 so it is worth ensuring your r is fully updated.
 
 ### Notes about shiny
 
