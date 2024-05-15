@@ -54,7 +54,7 @@ Shiny-Dashboard-Visualising-Death/
 ├── simple_app/             # Main Shiny application file.
 │   ├── cause_of_deaths.csv
 │   └── app.R
-├── DS2.Rproj
+├── cod_dashboard.Rproj
 │
 ├── README.md           
 │
